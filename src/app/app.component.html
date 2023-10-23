@@ -1,2 +1,3 @@
-<button (click)="createComponent()">Review a movie!</button>
-<ng-container #movieReview></ng-container>
+<p (click)="createComponent()">Review a movie<p>
+<ng-container #movieReview></ng-container> <br />
+<button (click)="isSubmit ? submit() : refresh()">{{ isSubmit? 'Submit' : 'Refresh' }}</button>

@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, OnChanges, Component, Input, SimpleChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, OnChanges, Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-comp-one',
   standalone :true,
-  imports:[CommonModule, FormsModule],
+  imports:[CommonModule, FormsModule, ReactiveFormsModule],
   changeDetection : ChangeDetectionStrategy.OnPush,
   templateUrl: './comp-one.component.html',
   styleUrls: ['./comp-one.component.scss'],
 })
 export class CompOne implements OnChanges{
   @Input() Title : string | undefined;
+  @Input() Review : string | undefined;
 
   ngOnChanges(changes: SimpleChanges) : void {
     for (const propName in changes){
@@ -21,4 +22,5 @@ export class CompOne implements OnChanges{
       console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
     }
   }
+
 }

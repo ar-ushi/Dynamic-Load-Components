@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { CompOne } from './components/comp-one/comp-one.component';
 import { CompTwo } from './components/comp-two/comp-two.component';
 
@@ -9,16 +9,30 @@ import { CompTwo } from './components/comp-two/comp-two.component';
 })
 
 export class AppComponent {
-  @ViewChild('movieReview', {read: ViewContainerRef})
-  container! : ViewContainerRef; 
-
-
+  movieSetRef: ComponentRef<CompOne> | undefined;
+  isSubmit : boolean = true;
+  @ViewChild('movieReview', {read: ViewContainerRef}) container! : ViewContainerRef; 
+  //@ViewChild(CompOne) movieTitleComponent!: CompOne;
+  
   createComponent(){
     this.container.clear(); //destroys views
-    const movieTitleRef = this.container.createComponent(CompOne);
-    const movieReviewRef = this.container.createComponent(CompTwo);
-    //compOneRef.instance.Title = 'Fight Club'
-    movieTitleRef.setInput('Title', 'Get Out')
+    this.movieSetRef = this.container.createComponent(CompOne);
   }
-  title = 'dynamic-load-comp';
+
+  submit(){
+    if (this.movieSetRef?.instance.Title && this.movieSetRef.instance.Review){
+      this.container.clear();
+      const movieGetRef = this.container.createComponent(CompTwo);
+      movieGetRef.setInput('Title', this.movieSetRef.instance.Title);
+      movieGetRef.setInput('Review', this.movieSetRef.instance.Review)
+    }
+    this.isSubmit = false;
+  }
+
+  refresh(){
+    this.container.clear();
+    this.movieSetRef = this.container.createComponent(CompOne);
+    this.isSubmit = true;
+  }
+
 }
